@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import Books from './Books'
 
-//import { Link } from 'react-router-dom'
-//import PropTypes from 'prop-types'
-//import escapeRegExp from 'escape-string-regexp'
-//import sortBy from 'sort-by'
-
 class ListBooks extends Component {
+  static PropTypes = {
+    books: PropTypes.array.isRequired
+  }
+
   render() {
+    const { books } = this.props
+
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -19,19 +21,19 @@ class ListBooks extends Component {
             <div className="bookshelf">
               <h2 className="bookshelf-title">Currently Reading</h2>
               <div className="bookshelf-books">
-                <Books />
+                <Books books={books} />
               </div>
             </div>
             <div className="bookshelf">
               <h2 className="bookshelf-title">Want to Read</h2>
               <div className="bookshelf-books">
-                <Books />
+                <Books books={books} />
               </div>
             </div>
             <div className="bookshelf">
               <h2 className="bookshelf-title">Read</h2>
               <div className="bookshelf-books">
-                <Books />
+                <Books books={books} />
               </div>
             </div>
           </div>
