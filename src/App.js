@@ -3,11 +3,15 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import ListBooks from './ListBooks'
 import SearchBooks from './SearchBooks'
 import * as BooksAPI from './utils/BooksAPI'
+
 import './App.css'
 
 class BooksApp extends Component {
   state = {
-    books: []
+    books: [],
+    shelves: [{"id": "currentlyReading", "name": "Currently Reading"},
+              {"id": "wantToRead", "name": "Want to Read"},
+              {"id": "read", "name": "Read"}]
   } 
 
   componentDidMount() {
@@ -16,16 +20,32 @@ class BooksApp extends Component {
     })
   }
 
+  updateBook = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(result => {
+      book.shelf = shelf
+      this.setState(state => ({
+        books: state.books.filter((b) => b.id !== book.id).concat([ book ])
+      }))
+    })
+  }
+
   render() {
-    console.log(this.state.books)
     return (
       <Router>
         <div className="app">
           <Route exact path='/' render={() => (
-            <ListBooks books={this.state.books} />
+            <ListBooks 
+              books={this.state.books} 
+              shelves={this.state.shelves} 
+              onUpdateBook={this.updateBook}
+            />
           )}/>
           <Route path='/search' render={({ history }) => (
-            <SearchBooks books={this.state.books} />
+            <SearchBooks
+              books={this.state.books} 
+              shelves={this.state.shelves}
+              onUpdateBook={this.updateBook}
+            />
           )}/>
         </div>
       </Router>
