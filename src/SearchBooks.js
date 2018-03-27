@@ -14,31 +14,22 @@ class SearchBooks extends Component {
 
   state = {
     query: '',
-    books: []
+    filteredBooks: []
   }
 
   searchBooks = (books, query) => {
     this.setState({ query: query })
 
     if (query) {
-      console.log(query)
       BooksAPI.search(query).then((searchBooks) => {
         if (searchBooks.error === undefined) {
-          //this.setState(state => ({
-           // books: searchBooks.filter((searchBook) => searchBook.id !== book.id).concat([ book ])
-          //  books: searchBooks.map((searchBook) => 
-          //    console.log(books.filter((book) => book.id === searchBook.id).shelf)
-          //  ) 
-          //}))
-          //this.setState({ books: books })
-          console.log(books)
-          let x = searchBooks.map((searchBook) => {
-            searchBook.shelf = 'read'
-           let y = books.filter((book) => book.id === searchBook.id)
-           console.log(y)
-            
-          })
-          console.log(x)
+          this.setState(state => ({
+            filteredBooks: searchBooks.map((searchBook) => {
+                              let bookWithShelf = books.filter((book) => book.id === searchBook.id)
+                              searchBook.shelf = bookWithShelf.length > 0 ? bookWithShelf[0].shelf : 'none'
+                              return searchBook
+                            })
+          }))
         }
       })
     } else {
@@ -64,9 +55,9 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <Books 
-            books={this.state.books}
+            books={this.state.filteredBooks}
             shelves={shelves}
-            onUpdateBook= {onUpdateBook} />
+            onUpdateBook={onUpdateBook} />
         </div>
       </div>
     )
