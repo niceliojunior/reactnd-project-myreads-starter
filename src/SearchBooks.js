@@ -1,55 +1,72 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
-import PropTypes from 'prop-types'
+import { DebounceInput } from 'react-debounce-input'
 import Books from './Books'
+import PropTypes from 'prop-types'
+import * as BooksAPI from './utils/BooksAPI'
 
 class SearchBooks extends Component {
-
   static PropTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    shelves: PropTypes.array.isRequired,
+    onUpdateBook: PropTypes.func.isRequired
   }
 
   state = {
-    query: ''
+    query: '',
+    books: []
   }
 
-  updateQuery = (query) => {
-    this.setState({ query: query.trim() })
-  }
+  searchBooks = (books, query) => {
+    this.setState({ query: query })
 
-  clearQuery = () => {
-    this.setState({ query: '' })
+    if (query) {
+      console.log(query)
+      BooksAPI.search(query).then((searchBooks) => {
+        if (searchBooks.error === undefined) {
+          //this.setState(state => ({
+           // books: searchBooks.filter((searchBook) => searchBook.id !== book.id).concat([ book ])
+          //  books: searchBooks.map((searchBook) => 
+          //    console.log(books.filter((book) => book.id === searchBook.id).shelf)
+          //  ) 
+          //}))
+          //this.setState({ books: books })
+          console.log(books)
+          let x = searchBooks.map((searchBook) => {
+            searchBook.shelf = 'read'
+           let y = books.filter((book) => book.id === searchBook.id)
+           console.log(y)
+            
+          })
+          console.log(x)
+        }
+      })
+    } else {
+      this.setState({ books: [] })
+    }
   }
 
   render() {
-    const { books } = this.props
-    const { query } = this.state
-
-    let showingBooks;
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i')
-      showingBooks = books.filter((book) => match.test(book.title) || match.test(book.authors))
-      showingBooks.sort(sortBy('title'))
-    } else {
-      showingBooks = []
-    }
+    const { shelves, books, onUpdateBook } = this.props
 
     return (
       <div className="search-books">
         <div className="search-books-bar">
           <Link className="close-search" to="/">Close</Link>
           <div className="search-books-input-wrapper">
-            <input 
-              type="text" 
-              placeholder="Search by title or author" 
-              value={query}
-              onChange={(event) => this.updateQuery(event.target.value)} />
+            <DebounceInput
+              minLength={3}
+              debounceTimeout={300} 
+              placeholder="Search by title or author, least 3 letters" 
+              value={this.state.query}
+              onChange={(event) => this.searchBooks(books, event.target.value)} />
           </div>
         </div>
         <div className="search-books-results">
-          <Books books={showingBooks} />
+          <Books 
+            books={this.state.books}
+            shelves={shelves}
+            onUpdateBook= {onUpdateBook} />
         </div>
       </div>
     )
