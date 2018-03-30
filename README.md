@@ -34,7 +34,7 @@ To get started developing right away:
     ├── utils
     │    └── BooksBooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
     ├── ListBooks.js # This is the component to list books in the shelves
-    └── SearchBooks.js # This is the component to search books from API
+    └── SearchBooks.js # This is the component to search books from API.
 ```
 
 Remember that good React design practice is to create new JS files for each component and use import/require statements to include them where they are needed.
