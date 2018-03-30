@@ -20,8 +20,11 @@ class BooksApp extends Component {
     })
   }
 
-  // Update shelf book
-  // Require: A book object and id of shelf
+  /**
+  * @description Update a book shelf into API and local state
+  * @param { object } book - The book object
+  * @param { string } shelf - The id of shelf
+  */
   updateShelfBook = (book, shelf) => {
     BooksAPI.update(book, shelf).then(result => {
       book.shelf = shelf

@@ -17,12 +17,16 @@ class SearchBooks extends Component {
     filteredBooks: []
   }
 
+  /**
+  * @description Search books using the API and compare the result 
+  *              with books from the state for update shelf
+  * @param { object } books - The books object from props
+  * @param { string } query - The search string
+  * @returns { object } Each book with shelf update and the local state filteredBooks updated
+  */
   searchBooks = (books, query) => {
     this.setState({ query: query })
 
-    // Search books in the API
-    // Books found are compared to books on the
-    // shelves, so it contains the same state 
     if (query) {
       BooksAPI.search(query).then((searchBooks) => {
         if (searchBooks.error === undefined) {
@@ -36,7 +40,7 @@ class SearchBooks extends Component {
         }
       })
     } else {
-      this.setState({ books: [] })
+      this.setState({ filteredBooks: [] })
     }
   }
 
