@@ -7,11 +7,11 @@ class ListBooks extends Component {
   static PropTypes = {
     books: PropTypes.array.isRequired,
     shelves: PropTypes.array.isRequired,
-    onUpdateBook: PropTypes.func.isRequired
+    onUpdateShelfBook: PropTypes.func.isRequired
   }
 
   render() {
-    const { books, shelves, onUpdateBook } = this.props
+    const { books, shelves, onUpdateShelfBook } = this.props
 
     return (
       <div className="list-books">
@@ -26,12 +26,11 @@ class ListBooks extends Component {
                 <Books 
                   books={books.filter((book) => book.shelf === shelf.id)} 
                   shelves={shelves} 
-                  onUpdateBook={onUpdateBook}/>
+                  onUpdateShelfBook={onUpdateShelfBook}/>
               </div>
             </div>
           ))}
         </div>
-
         <div className="open-search">
           <Link to="search">Add a book</Link>
         </div>

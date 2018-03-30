@@ -20,7 +20,9 @@ class BooksApp extends Component {
     })
   }
 
-  updateBook = (book, shelf) => {
+  // Update shelf book
+  // Require: A book object and id of shelf
+  updateShelfBook = (book, shelf) => {
     BooksAPI.update(book, shelf).then(result => {
       book.shelf = shelf
       this.setState(state => ({
@@ -37,14 +39,14 @@ class BooksApp extends Component {
             <ListBooks 
               books={this.state.books} 
               shelves={this.state.shelves} 
-              onUpdateBook={this.updateBook}
+              onUpdateShelfBook={this.updateShelfBook}
             />
           )}/>
           <Route path='/search' render={({ history }) => (
             <SearchBooks
               books={this.state.books} 
               shelves={this.state.shelves}
-              onUpdateBook={this.updateBook}
+              onUpdateShelfBook={this.updateShelfBook}
             />
           )}/>
         </div>
