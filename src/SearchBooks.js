@@ -9,7 +9,7 @@ class SearchBooks extends Component {
   static PropTypes = {
     books: PropTypes.array.isRequired,
     shelves: PropTypes.array.isRequired,
-    onUpdateBook: PropTypes.func.isRequired
+    onUpdateShelfBook: PropTypes.func.isRequired
   }
 
   state = {
@@ -20,6 +20,9 @@ class SearchBooks extends Component {
   searchBooks = (books, query) => {
     this.setState({ query: query })
 
+    // Search books in the API
+    // Books found are compared to books on the
+    // shelves, so it contains the same state 
     if (query) {
       BooksAPI.search(query).then((searchBooks) => {
         if (searchBooks.error === undefined) {
@@ -38,7 +41,7 @@ class SearchBooks extends Component {
   }
 
   render() {
-    const { shelves, books, onUpdateBook } = this.props
+    const { shelves, books, onUpdateShelfBook } = this.props
 
     return (
       <div className="search-books">
@@ -57,7 +60,7 @@ class SearchBooks extends Component {
           <Books 
             books={this.state.filteredBooks}
             shelves={shelves}
-            onUpdateBook={onUpdateBook} />
+            onUpdateShelfBook={onUpdateShelfBook} />
         </div>
       </div>
     )
