@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import ListBooks from './ListBooks'
 import SearchBooks from './SearchBooks'
+import sortBy from 'sort-by'
 import * as BooksAPI from './utils/BooksAPI'
 
 import './App.css'
@@ -16,7 +17,7 @@ class BooksApp extends Component {
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState({ books })
+      this.setState({ books: books.sort(sortBy('title')) })
     })
   }
 
@@ -29,7 +30,7 @@ class BooksApp extends Component {
     BooksAPI.update(book, shelf).then(result => {
       book.shelf = shelf
       this.setState(state => ({
-        books: state.books.filter((b) => b.id !== book.id).concat([ book ])
+        books: state.books.filter((b) => b.id !== book.id).concat([ book ]).sort(sortBy('title'))
       }))
     })
   }

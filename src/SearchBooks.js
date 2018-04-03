@@ -4,6 +4,7 @@ import { DebounceInput } from 'react-debounce-input'
 import Books from './Books'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './utils/BooksAPI'
+import sortBy from 'sort-by'
 
 class SearchBooks extends Component {
   static PropTypes = {
@@ -35,7 +36,7 @@ class SearchBooks extends Component {
                               let bookWithShelf = books.filter((book) => book.id === searchBook.id)
                               searchBook.shelf = bookWithShelf.length > 0 ? bookWithShelf[0].shelf : 'none'
                               return searchBook
-                            })
+                            }).sort(sortBy('title'))
           }))
         }
       })
