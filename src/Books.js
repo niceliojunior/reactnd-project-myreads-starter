@@ -19,11 +19,11 @@ class Books extends Component {
           <li key={book.id}>
             <div className="book">
               <div className="book-top">
-                {(book.imageLinks !== undefined ? 
+                {book.imageLinks ? 
                   <div className="book-cover" style={{ backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div> 
                 : 
                   <div className="book-cover">Cover Not Available</div>
-                )}
+                }
                 <div className="book-shelf-changer">
                   <select defaultValue={book.shelf} onChange={(event) => onUpdateShelfBook(book, event.target.value)}>
                     <option value="none" disabled>Move to...</option>
@@ -35,16 +35,18 @@ class Books extends Component {
                 </div>
               </div>
               <div className="book-title">{book.title}</div>
-              {(book.authors !== undefined ?
+              {book.authors ?
                 book.authors.map((author) => (<div key={author} className="book-authors">{author}</div>))
               :
                 ''
-              )}
-              {(book.categories !== undefined ?
+              }
+              {book.categories ?
                 book.categories.map((category) => (
                   <div key={category} className="book-categories">{category}</div>
                 ))
-                : '')}
+              : 
+                ''
+              }
               <div className="book-rating">
                 <StarRatingComponent
                   editing={false}
